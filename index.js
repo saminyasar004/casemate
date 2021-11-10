@@ -10,7 +10,7 @@ const stringUtilities = require("./src/utilities/string");
 const arrayUtilities = require("./src/utilities/array");
 
 // Module scaffolding
-const madeJS = { ...arrayUtilities, ...stringUtilities };
+const casemate = { ...arrayUtilities, ...stringUtilities };
 
 // Export module
-module.exports = madeJS;
+module.exports = casemate;

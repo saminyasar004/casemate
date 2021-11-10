@@ -1,10 +1,10 @@
 {
     "name": "casemate",
     "version": "1.0.1",
-    "description": "Storage of many useful utility function for JavaScript.",
+    "description": "Storage of many useful utility functions for JavaScript.",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon index.js"
+        "start": "node index.js"
     },
     "keywords": [
         "js",

@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/casemate)
 
-Storage of many useful utility function for JavaScript.
+Storage of many useful utility functions for JavaScript.
 
 ### **Installation**
 
@@ -10,7 +10,7 @@ Using npm
 
 ```shell
 $ npm i -g npm
-$ npm i --save lodash
+$ npm i --save casemate
 ```
 
 ### **Use case**
