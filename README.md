@@ -1,6 +1,6 @@
 # **Casemate**
 
-![npm](https://img.shields.io/npm/v/casemate)
+[![npm][npm-image]][npm-url]
 
 Storage of many useful utility functions for JavaScript.
 
@@ -23,3 +23,6 @@ const casemate = require("casemate");
 // Capitalize a string
 const capitalizeName = casemate.capitalize("john doe");
 ```
+
+[npm-image]: https://img.shields.io/npm/v/casemate.svg
+[npm-url]: https://npmjs.org/package/casemate
