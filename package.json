@@ -21,6 +21,10 @@
     ],
     "author": "Samin Yasar",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/saminyasar004/casemate.git"
+    },
     "dependencies": {
         "eslint": "^8.2.0",
         "eslint-config-airbnb-base": "^15.0.0",

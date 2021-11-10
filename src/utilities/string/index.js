@@ -20,7 +20,7 @@ const stringUtilities = {};
 stringUtilities.camelCase = (str) => {
     const string = typeof str === "string" ? str.trim() : "";
     if (string) {
-        const splitted = string.split(/\s|_/gi);
+        const splitted = string.split(/\s|_|-/gi);
         return `${splitted.slice(0, 1).map((el) => el.toLowerCase())}${splitted
             .slice(1)
             .map((el) => `${el.charAt(0).toUpperCase()}${el.slice(1).toLowerCase()}`)
@@ -43,6 +43,33 @@ stringUtilities.capitalize = (str) => {
             .split(" ")
             .map((el) => `${el.charAt(0).toUpperCase()}${el.slice(1).toLowerCase()}`)
             .join(" ");
+    }
+    return "";
+};
+
+/**
+ * ? kebabCase method
+ * convert a string to kebab case
+ *
+ * @param {String} str - The string to convert in kebab case
+ * @returns {String} - The converted kebab case
+ */
+stringUtilities.kebabCase = (str) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    if (string) {
+        return string
+            .split("")
+            .map((el) => {
+                if (el === el.toUpperCase()) {
+                    return `-${el.toLowerCase()}`;
+                }
+                return el;
+            })
+            .join("")
+            .split(/\s|_|-/gi)
+            .filter((el) => Boolean(el))
+            .map((el) => el.toLowerCase())
+            .join("-");
     }
     return "";
 };
