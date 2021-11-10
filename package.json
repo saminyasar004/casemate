@@ -1,6 +1,6 @@
 {
-    "name": "made-js",
-    "version": "1.0.0",
+    "name": "casemate",
+    "version": "1.0.1",
     "description": "Storage of many useful utility function for JavaScript.",
     "main": "index.js",
     "scripts": {
@@ -12,8 +12,9 @@
         "string",
         "array",
         "number",
-        "boolean",
         "utilities",
+        "util",
+        "modules",
         "javascript-utilities",
         "nodejs",
         "npm"
