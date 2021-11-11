@@ -14,7 +14,7 @@ const stringUtilities = {};
  * ? camelCase method
  * return a camelcase format of the given string.
  *
- * @param {String} str - A string to be camelcase
+ * @param {String} [str = ""] - A string to be camelcase
  * @returns {String} - A camelcased string
  */
 stringUtilities.camelCase = (str) => {
@@ -33,7 +33,7 @@ stringUtilities.camelCase = (str) => {
  * ? capitalize method
  * return a capitalize format of the given string.
  *
- * @param {String} str - A string to be capitalized
+ * @param {String} [str = ""] - A string to be capitalized
  * @returns {String} - A capitalized string
  */
 stringUtilities.capitalize = (str) => {
@@ -51,25 +51,76 @@ stringUtilities.capitalize = (str) => {
  * ? kebabCase method
  * convert a string to kebab case
  *
- * @param {String} str - The string to convert in kebab case
+ * @param {String} [str = ""] - The string to convert in kebab case
  * @returns {String} - The converted kebab case
  */
 stringUtilities.kebabCase = (str) => {
     const string = typeof str === "string" ? str.trim() : "";
     if (string) {
-        return string
-            .split("")
-            .map((el) => {
-                if (el === el.toUpperCase()) {
-                    return `-${el.toLowerCase()}`;
-                }
-                return el;
-            })
-            .join("")
-            .split(/\s|_|-/gi)
-            .filter((el) => Boolean(el))
-            .map((el) => el.toLowerCase())
-            .join("-");
+        return string.toUpperCase() === str
+            ? string
+                  .split(/\s|_|-/gi)
+                  .filter((el) => Boolean(el))
+                  .map((el) => el.toLowerCase())
+                  .join("-")
+            : string
+                  .split("")
+                  .filter((el) => !el.match(/_|-/gi))
+                  .map((el) => {
+                      if (el === el.toUpperCase()) {
+                          return `-${el.toLowerCase()}`;
+                      }
+                      return el;
+                  })
+                  .map((el) => el.trim())
+                  .join("");
+    }
+    return "";
+};
+
+/**
+ * ? lowerCase method
+ * convert a string to lower case
+ *
+ * @param {String} [str = ""] - The string to convert in lower case
+ * @returns {String} - The converted lower case
+ */
+stringUtilities.lowerCase = (str) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    if (string) {
+        return string.toUpperCase() === str
+            ? string
+                  .split(/\s|_|-/gi)
+                  .filter((el) => Boolean(el))
+                  .map((el) => el.toLowerCase())
+                  .join(" ")
+            : string
+                  .split("")
+                  .filter((el) => !el.match(/_|-/gi))
+                  .map((el) => {
+                      if (el === el.toUpperCase()) {
+                          return ` ${el.toLowerCase()}`;
+                      }
+                      return el;
+                  })
+                  .join("")
+                  .trim();
+    }
+    return "";
+};
+
+/**
+ * ? lowerFirst method
+ * converts the first character of `string` to lower case
+ *
+ * @param {String} [str = ""] - The string to convert
+ * @returns {String} - The converted string
+ */
+stringUtilities.lowerFirst = (str) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    if (string) {
+        const splittedStr = string.split(" ");
+        return splittedStr.map((el) => `${el.charAt(0).toLowerCase()}${el.slice(1)}`).join(" ");
     }
     return "";
 };
@@ -77,9 +128,9 @@ stringUtilities.kebabCase = (str) => {
 /**
  * ? endsWith method
  * check if `string` ends with the given target string
- * @param {String} str - The base string to inspect
- * @param {String} target - The targeted string to search for
- * @param {Number} position - The index number of the base string for search up to
+ * @param {String} [str = null] - The base string to inspect
+ * @param {String} [target = null] - The targeted string to search for
+ * @param {Number} [position = str.length] - The index number of the base string for search up to
  * @returns {Boolean} - Determine if the base string ends with targeted string.
  */
 stringUtilities.endsWith = (str, target, position) => {
@@ -95,7 +146,7 @@ stringUtilities.endsWith = (str, target, position) => {
 /**
  * ? escape method
  * Converts the characters "&", "<", ">", '"', and "'" in string to their corresponding HTML entities.
- * @param {String} str - The string to escape
+ * @param {String} [str = ""] - The string to escape
  * @returns {String} - Returns the escaped string
  */
 stringUtilities.escape = (str = "") => {
@@ -125,7 +176,7 @@ stringUtilities.escape = (str = "") => {
  * ? escapeRegExp method
  * Escapes the RegExp special characters "^", "$", "", ".", "*", "+", "?", "(", ")", "[", "]", "{", "}", and "|" in string.
  *
- * @param {String} str - The string to escape
+ * @param {String} [str = ""] - The string to escape
  * @returns {String} - The escaped string
  */
 stringUtilities.escapeRegExp = (str) => {
@@ -159,6 +210,76 @@ stringUtilities.escapeRegExp = (str) => {
     }
     return "";
 };
+
+/**
+ * ? pad method
+ * Pads string on the left and right sides if it's shorter than length. Padding characters are truncated if they can't be evenly divided by length.
+ *
+ * @param {String} [str = ""] - The string to pad
+ * @param {Number} [len = 0] - The padding length
+ * @param {String} [chars = ""] - The string used as padding
+ * @returns {String} - The padded string
+ */
+stringUtilities.pad = (str, len, chars) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    const stringLength = string.length;
+    const length = typeof len === "number" ? len : 0;
+    const padChars = typeof chars === "string" ? chars : "";
+    if (length > stringLength) {
+        return string;
+        // ! Code here...
+    }
+    return string;
+};
+
+/**
+ * ? padStart method
+ */
+
+/**
+ * ? padEnd method
+ */
+
+/**
+ * ? parseInt method
+ * Converts string to an integer of the specified radix. If radix is undefined or 0, a radix of 10 is used unless value is a hexadecimal, in which case a radix of 16 is used.
+ *
+ * @param {String} [str = ""] - The string to convert
+ * @param {Number} [radix = 10] - The radix to interpret value by
+ * @returns {Number} - Returns the converted integer
+ */
+stringUtilities.parseInt = (str, radix) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    const numberBase = typeof radix === "number" ? radix : 10;
+    if (str) {
+        return parseInt(string, numberBase);
+    }
+    return NaN;
+};
+
+/**
+ * ? repeat method
+ * Repeats the given string n times.
+ *
+ * @param {String} [str = ""] - The string to repeat
+ * @param {Number} [n = 1] -The number of times to repeat the string
+ * @returns {String} - The repeated string
+ */
+stringUtilities.repeat = (str, n) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    const times = typeof n === "number" ? n : 1;
+    if (string && times) {
+        return string.repeat(times);
+    }
+    return "";
+};
+
+/**
+ * ? replace method
+ * Replaces matches for pattern in string with replacement.
+ *
+ * @param {String} [str = ""] - The string to modify
+ */
 
 // Export module
 module.exports = stringUtilities;
