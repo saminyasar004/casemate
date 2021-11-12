@@ -29,6 +29,6 @@ const casemate = require("casemate");
 const capitalizeName = casemate.capitalize("john doe"); // John Doe
 ```
 
-## Authors
+## Author
 
--   [@saminyasar004](https://www.github.com/saminyasar004)
+-   [@saminyasar004](https://www.github.com/saminyasar004) | [Email](mailto:yasarsamin57@gmail.com)

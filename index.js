@@ -6,8 +6,8 @@
  */
 
 // Dependencies
-const stringUtilities = require("./src/utilities/string");
 const arrayUtilities = require("./src/utilities/array");
+const stringUtilities = require("./src/utilities/string");
 
 // Module scaffolding
 const casemate = { ...arrayUtilities, ...stringUtilities };

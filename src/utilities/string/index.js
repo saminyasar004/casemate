@@ -30,6 +30,37 @@ stringUtilities.camelCase = (str) => {
 };
 
 /**
+ * ? snakeCase method
+ * Converts string to snake case.
+ *
+ * @param {String} str - The string to convert
+ * @returns {String} - Return the snake cased string
+ */
+stringUtilities.snakeCase = (str) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    if (string) {
+        return string === string.toUpperCase()
+            ? string
+                  .split(/\s|_|-/gi)
+                  .filter((el) => Boolean(el))
+                  .map((el) => el.toLowerCase())
+                  .join("_")
+            : string
+                  .split("")
+                  .filter((el) => !el.match(/_|-/gi))
+                  .map((el) => {
+                      if (el === el.toUpperCase()) {
+                          return `_${el.toLowerCase()}`;
+                      }
+                      return el;
+                  })
+                  .map((el) => el.trim())
+                  .join("");
+    }
+    return "";
+};
+
+/**
  * ? capitalize method
  * return a capitalize format of the given string.
  *
@@ -57,23 +88,28 @@ stringUtilities.capitalize = (str) => {
 stringUtilities.kebabCase = (str) => {
     const string = typeof str === "string" ? str.trim() : "";
     if (string) {
-        return string.toUpperCase() === str
-            ? string
-                  .split(/\s|_|-/gi)
-                  .filter((el) => Boolean(el))
-                  .map((el) => el.toLowerCase())
-                  .join("-")
-            : string
-                  .split("")
-                  .filter((el) => !el.match(/_|-/gi))
-                  .map((el) => {
-                      if (el === el.toUpperCase()) {
-                          return `-${el.toLowerCase()}`;
-                      }
-                      return el;
-                  })
-                  .map((el) => el.trim())
-                  .join("");
+        if (string.toUpperCase() === string) {
+            return string
+                .split(/\s|_|-/gi)
+                .filter((el) => Boolean(el))
+                .map((el) => el.toLowerCase())
+                .join("-");
+        }
+        let result = "";
+        string
+            .split(/\s|_/gi)
+            .join("")
+            .split("")
+            .forEach((el) => {
+                if (el.trim().length) {
+                    if (result.trim().length && el === el.toUpperCase()) {
+                        result += `-${el.toLowerCase()}`;
+                    } else {
+                        result += el.toLowerCase();
+                    }
+                }
+            });
+        return result;
     }
     return "";
 };
@@ -88,23 +124,31 @@ stringUtilities.kebabCase = (str) => {
 stringUtilities.lowerCase = (str) => {
     const string = typeof str === "string" ? str.trim() : "";
     if (string) {
-        return string.toUpperCase() === str
-            ? string
-                  .split(/\s|_|-/gi)
-                  .filter((el) => Boolean(el))
-                  .map((el) => el.toLowerCase())
-                  .join(" ")
-            : string
-                  .split("")
-                  .filter((el) => !el.match(/_|-/gi))
-                  .map((el) => {
-                      if (el === el.toUpperCase()) {
-                          return ` ${el.toLowerCase()}`;
-                      }
-                      return el;
-                  })
-                  .join("")
-                  .trim();
+        if (string.toUpperCase() === string) {
+            return string
+                .split(/\s|_|-/gi)
+                .filter((el) => Boolean(el))
+                .map((el) => el.toLowerCase())
+                .join(" ");
+        }
+        return string
+            .split(/\s|_|-/gi)
+            .filter((el) => el.trim().length)
+            .map((el, ind) => {
+                if (ind > 0) {
+                    return ` ${el}`;
+                }
+                return el;
+            })
+            .join("")
+            .split("")
+            .map((el) => {
+                if (el.trim().length && el === el.toUpperCase()) {
+                    return ` ${el.toLowerCase()}`;
+                }
+                return el.toLowerCase();
+            })
+            .join("");
     }
     return "";
 };
@@ -226,7 +270,7 @@ stringUtilities.pad = (str, len, chars) => {
     const length = typeof len === "number" ? len : 0;
     const padChars = typeof chars === "string" ? chars : "";
     if (length > stringLength) {
-        return string;
+        return `${string}, ${padChars}`;
         // ! Code here...
     }
     return string;
@@ -279,7 +323,32 @@ stringUtilities.repeat = (str, n) => {
  * Replaces matches for pattern in string with replacement.
  *
  * @param {String} [str = ""] - The string to modify
+ * @param {RegExp|String} [patt = (RegExp|string)] - The pattern to replace.
+ * @param {String} [repl = string] - The replacement string
+ * @returns {String} - The replaced string
  */
+stringUtilities.replace = (str, patt, repl) => {
+    const string = typeof str === "string" ? str : "";
+    const pattern = typeof patt === "string" ? patt : "";
+    const replacementString = typeof repl === "string" ? repl : "";
+    if (string) {
+        const splitted = pattern.split("/");
+        console.log(splitted);
+        try {
+            if (splitted.length > 2) {
+                const regExp = splitted.slice(1, splitted.length - 1).join("/");
+                const flag = splitted[splitted.length - 1];
+                const expression = new RegExp(regExp, flag);
+                return string.replace(expression, replacementString);
+            }
+            return string.replace(patt, replacementString);
+        } catch (err) {
+            console.log(new Error(err));
+            return string;
+        }
+    }
+    return string;
+};
 
 // Export module
 module.exports = stringUtilities;
