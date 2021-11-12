@@ -1,4 +1,4 @@
-# .gitignore
+# .npmignore
 node_modules/
 .vscode/
 .dev/

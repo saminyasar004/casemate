@@ -27,6 +27,8 @@ In Node.js
 const casemate = require("casemate");
 // Capitalize a string
 const capitalizeName = casemate.capitalize("john doe"); // John Doe
+// Convert a string to snake case
+const snakeCased = casemate.snakeCase("fooBar"); // foo_bar
 ```
 
 ## Author

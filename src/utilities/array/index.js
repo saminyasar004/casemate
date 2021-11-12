@@ -5,8 +5,6 @@
  * Date: 10/November/2021
  */
 
-// Dependencies
-
 // Module scaffolding
 const arrayUtilities = {};
 

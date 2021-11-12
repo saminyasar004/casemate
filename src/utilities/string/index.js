@@ -5,60 +5,8 @@
  * Date: 10/November/2021
  */
 
-// Dependencies
-
 // Module scaffolding
 const stringUtilities = {};
-
-/**
- * ? camelCase method
- * return a camelcase format of the given string.
- *
- * @param {String} [str = ""] - A string to be camelcase
- * @returns {String} - A camelcased string
- */
-stringUtilities.camelCase = (str) => {
-    const string = typeof str === "string" ? str.trim() : "";
-    if (string) {
-        const splitted = string.split(/\s|_|-/gi);
-        return `${splitted.slice(0, 1).map((el) => el.toLowerCase())}${splitted
-            .slice(1)
-            .map((el) => `${el.charAt(0).toUpperCase()}${el.slice(1).toLowerCase()}`)
-            .join("")}`;
-    }
-    return "";
-};
-
-/**
- * ? snakeCase method
- * Converts string to snake case.
- *
- * @param {String} str - The string to convert
- * @returns {String} - Return the snake cased string
- */
-stringUtilities.snakeCase = (str) => {
-    const string = typeof str === "string" ? str.trim() : "";
-    if (string) {
-        return string === string.toUpperCase()
-            ? string
-                  .split(/\s|_|-/gi)
-                  .filter((el) => Boolean(el))
-                  .map((el) => el.toLowerCase())
-                  .join("_")
-            : string
-                  .split("")
-                  .filter((el) => !el.match(/_|-/gi))
-                  .map((el) => {
-                      if (el === el.toUpperCase()) {
-                          return `_${el.toLowerCase()}`;
-                      }
-                      return el;
-                  })
-                  .map((el) => el.trim())
-                  .join("");
-    }
-    return "";
-};
 
 /**
  * ? capitalize method
@@ -79,6 +27,98 @@ stringUtilities.capitalize = (str) => {
 };
 
 /**
+ * ? toUpper method
+ * Converts string, as a whole, to uppercase.
+ *
+ * @param {String} str - The string to convert on uppercase
+ * @returns {String} - The uppercased string
+ */
+stringUtilities.toUpper = (str) => {
+    const string = typeof str === "string" ? str : "";
+    if (string) {
+        return string.toUpperCase();
+    }
+    return "";
+};
+
+/**
+ * ? toLower method
+ * Converts string, as a whole, to lowercase.
+ *
+ * @param {String} str - The string to convert on lowercase
+ * @returns {String} - The lowercased string
+ */
+stringUtilities.toLower = (str) => {
+    const string = typeof str === "string" ? str : "";
+    if (string) {
+        return string.toLowerCase();
+    }
+    return "";
+};
+
+/**
+ * ? camelCase method
+ * return a camelcase format of the given string.
+ *
+ * @param {String} [str = ""] - A string to be camelcase
+ * @returns {String} - A camelcased string
+ */
+stringUtilities.camelCase = (str) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    if (string) {
+        const splitted = string.split(/\s|_|-/gi).filter((el) => Boolean(el.length));
+
+        return splitted.length > 1
+            ? `${splitted.slice(0, 1).map((el) => el.toLowerCase())}${splitted
+                  .slice(1)
+                  .map((el) => `${el.charAt(0).toUpperCase()}${el.slice(1).toLowerCase()}`)
+                  .join("")}`
+            : splitted.join("");
+    }
+    return "";
+};
+
+/**
+ * ? snakeCase method
+ * Converts string to snake case.
+ *
+ * @param {String} [str = ""] - The string to convert
+ * @returns {String} - Return the snake cased string
+ */
+stringUtilities.snakeCase = (str) => {
+    const string = typeof str === "string" ? str.trim() : "";
+    if (string) {
+        if (string === string.toUpperCase()) {
+            return string
+                .split(/\s|_|-/gi)
+                .filter((el) => Boolean(el))
+                .map((el) => el.toLowerCase())
+                .join("_");
+        }
+        const splitted = string
+            .split(/\s|-|_/gi)
+            .filter((el) => !el.match(/\s|-|_/gi))
+            .filter((el) => Boolean(el.trim()));
+        return splitted.length > 1
+            ? splitted.map((el) => el.toLowerCase()).join("_")
+            : splitted
+                  .map((el) =>
+                      el
+                          .split("")
+                          .map((ch) => {
+                              if (ch === ch.toUpperCase()) {
+                                  return `_${ch.toLowerCase()}`;
+                              }
+                              return ch.toLowerCase();
+                          })
+                          .join("")
+                  )
+                  .join("");
+    }
+    return "";
+};
+
+/**
  * ? kebabCase method
  * convert a string to kebab case
  *
@@ -88,28 +128,32 @@ stringUtilities.capitalize = (str) => {
 stringUtilities.kebabCase = (str) => {
     const string = typeof str === "string" ? str.trim() : "";
     if (string) {
-        if (string.toUpperCase() === string) {
+        if (string === string.toUpperCase()) {
             return string
                 .split(/\s|_|-/gi)
                 .filter((el) => Boolean(el))
                 .map((el) => el.toLowerCase())
                 .join("-");
         }
-        let result = "";
-        string
-            .split(/\s|_/gi)
-            .join("")
-            .split("")
-            .forEach((el) => {
-                if (el.trim().length) {
-                    if (result.trim().length && el === el.toUpperCase()) {
-                        result += `-${el.toLowerCase()}`;
-                    } else {
-                        result += el.toLowerCase();
-                    }
-                }
-            });
-        return result;
+        const splitted = string
+            .split(/\s|-|_/gi)
+            .filter((el) => !el.match(/\s|-|_/gi))
+            .filter((el) => Boolean(el.trim()));
+        return splitted.length > 1
+            ? splitted.map((el) => el.toLowerCase()).join("-")
+            : splitted
+                  .map((el) =>
+                      el
+                          .split("")
+                          .map((ch) => {
+                              if (ch === ch.toUpperCase()) {
+                                  return `-${ch.toLowerCase()}`;
+                              }
+                              return ch.toLowerCase();
+                          })
+                          .join("")
+                  )
+                  .join("");
     }
     return "";
 };
@@ -124,31 +168,32 @@ stringUtilities.kebabCase = (str) => {
 stringUtilities.lowerCase = (str) => {
     const string = typeof str === "string" ? str.trim() : "";
     if (string) {
-        if (string.toUpperCase() === string) {
+        if (string === string.toUpperCase()) {
             return string
                 .split(/\s|_|-/gi)
                 .filter((el) => Boolean(el))
                 .map((el) => el.toLowerCase())
                 .join(" ");
         }
-        return string
-            .split(/\s|_|-/gi)
-            .filter((el) => el.trim().length)
-            .map((el, ind) => {
-                if (ind > 0) {
-                    return ` ${el}`;
-                }
-                return el;
-            })
-            .join("")
-            .split("")
-            .map((el) => {
-                if (el.trim().length && el === el.toUpperCase()) {
-                    return ` ${el.toLowerCase()}`;
-                }
-                return el.toLowerCase();
-            })
-            .join("");
+        const splitted = string
+            .split(/\s|-|_/gi)
+            .filter((el) => !el.match(/\s|-|_/gi))
+            .filter((el) => Boolean(el.trim()));
+        return splitted.length > 1
+            ? splitted.map((el) => el.toLowerCase()).join(" ")
+            : splitted
+                  .map((el) =>
+                      el
+                          .split("")
+                          .map((ch) => {
+                              if (ch === ch.toUpperCase()) {
+                                  return ` ${ch.toLowerCase()}`;
+                              }
+                              return ch.toLowerCase();
+                          })
+                          .join("")
+                  )
+                  .join("");
     }
     return "";
 };
@@ -170,11 +215,30 @@ stringUtilities.lowerFirst = (str) => {
 };
 
 /**
+ * ? startsWith method
+ * Checks if string starts with the given target string.
+ *
+ * @param {String} [str = ""] - The string to inspect
+ * @param {String} [target = ""] - The targetd string to search for
+ * @param {Number} [position = number] - The index number of the base string for search up to
+ * @returns {Boolean} - determine if the base string strarts with targeted string
+ */
+stringUtilities.startsWith = (str, target, position) => {
+    const string = typeof str === "string" ? str.trim() : null;
+    const targetString = typeof target === "string" ? target : null;
+    const indexPosition = typeof position === "number" ? position : str.length;
+    if (string && targetString && indexPosition) {
+        return string.startsWith(targetString, indexPosition);
+    }
+    return false;
+};
+
+/**
  * ? endsWith method
  * check if `string` ends with the given target string
- * @param {String} [str = null] - The base string to inspect
- * @param {String} [target = null] - The targeted string to search for
- * @param {Number} [position = str.length] - The index number of the base string for search up to
+ * @param {String} [str = ""] - The base string to inspect
+ * @param {String} [target = ""] - The targeted string to search for
+ * @param {Number} [position = number] - The index number of the base string for search up to
  * @returns {Boolean} - Determine if the base string ends with targeted string.
  */
 stringUtilities.endsWith = (str, target, position) => {
@@ -185,6 +249,39 @@ stringUtilities.endsWith = (str, target, position) => {
         return string.endsWith(targetString, indexPosition);
     }
     return false;
+};
+
+/**
+ * ? split method
+ * Splits string by separator.
+ *
+ * @param {String} str - The string to split
+ * @param {RegExp|String} patt - The seperator patter to split by
+ * @param {Number} limit - Splits string by separator.
+ */
+stringUtilities.split = (str, patt, limit) => {
+    const string = typeof str === "string" ? str : "";
+    const pattern = typeof patt === "string" || typeof patt === "object" ? patt : "";
+    if (string) {
+        const splitted = pattern.toString().split("/");
+        try {
+            if (splitted.length > 2) {
+                const regExp = splitted.slice(1, splitted.length - 1).join("/");
+                const flag = splitted[splitted.length - 1];
+                const expression = new RegExp(regExp, flag);
+                const splittedString = string.split(expression);
+                const splitLimit = typeof limit === "number" ? limit : splittedString.length;
+                return splittedString.slice(0, splitLimit);
+            }
+            const splittedString = string.split(patt);
+            const splitLimit = typeof limit === "number" ? limit : splittedString.length;
+            return splittedString.slice(0, splitLimit);
+        } catch (err) {
+            console.log(new Error(err));
+            return [];
+        }
+    }
+    return [];
 };
 
 /**
@@ -260,29 +357,63 @@ stringUtilities.escapeRegExp = (str) => {
  * Pads string on the left and right sides if it's shorter than length. Padding characters are truncated if they can't be evenly divided by length.
  *
  * @param {String} [str = ""] - The string to pad
- * @param {Number} [len = 0] - The padding length
+ * @param {Number} [len = 0] - The total length of modified string
  * @param {String} [chars = ""] - The string used as padding
  * @returns {String} - The padded string
  */
 stringUtilities.pad = (str, len, chars) => {
-    const string = typeof str === "string" ? str.trim() : "";
-    const stringLength = string.length;
+    const string = typeof str === "string" ? str : "";
     const length = typeof len === "number" ? len : 0;
-    const padChars = typeof chars === "string" ? chars : "";
-    if (length > stringLength) {
-        return `${string}, ${padChars}`;
-        // ! Code here...
+    const padCharacters = typeof chars === "string" ? chars : " ";
+    if (string) {
+        const strLength = string.length;
+        const firstLength = Math.floor((length - strLength) / 2) + strLength;
+        const lastLength = Math.ceil((length - strLength) / 2) + strLength;
+        const paddedString = `${string.padStart(firstLength, padCharacters)}${string
+            .padEnd(lastLength, padCharacters)
+            .replace(string, "")}`;
+        return paddedString;
     }
-    return string;
+    return "";
 };
 
 /**
  * ? padStart method
+ * Pads string on the left side if it's shorter than length. Padding characters are truncated if they exceed length.
+ *
+ * @param {String} [str = ""] - The string to pad
+ * @param {Number} [len = 0] - The total length of modified string
+ * @param {String} [chars = ""] - The string used as padding
+ * @returns {String} - The padded string
  */
+stringUtilities.padStart = (str, len, chars) => {
+    const string = typeof str === "string" ? str : "";
+    const length = typeof len === "number" ? len : 0;
+    const padCharacters = typeof chars === "string" ? chars : " ";
+    if (string) {
+        return string.padStart(length, padCharacters);
+    }
+    return "";
+};
 
 /**
  * ? padEnd method
+ * Pads string on the right side if it's shorter than length. Padding characters are truncated if they exceed length.
+ *
+ * @param {String} [str = ""] - The string to pad
+ * @param {Number} [len = 0] - The total length of modified string
+ * @param {String} [chars = ""] - The string used as padding
+ * @returns {String} - The padded string
  */
+stringUtilities.padEnd = (str, len, chars) => {
+    const string = typeof str === "string" ? str : "";
+    const length = typeof len === "number" ? len : 0;
+    const padCharacters = typeof chars === "string" ? chars : " ";
+    if (string) {
+        return string.padEnd(length, padCharacters);
+    }
+    return "";
+};
 
 /**
  * ? parseInt method
@@ -329,11 +460,10 @@ stringUtilities.repeat = (str, n) => {
  */
 stringUtilities.replace = (str, patt, repl) => {
     const string = typeof str === "string" ? str : "";
-    const pattern = typeof patt === "string" ? patt : "";
+    const pattern = typeof patt === "string" || typeof patt === "object" ? patt : "";
     const replacementString = typeof repl === "string" ? repl : "";
     if (string) {
-        const splitted = pattern.split("/");
-        console.log(splitted);
+        const splitted = pattern.toString().split("/");
         try {
             if (splitted.length > 2) {
                 const regExp = splitted.slice(1, splitted.length - 1).join("/");
